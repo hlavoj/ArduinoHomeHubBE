@@ -85,10 +85,17 @@ namespace ArduinoHomeHubBE
                 .AddAspNetIdentity<User>();
             //.AddProfileService<ProfileService<User>>();
 
-            services.AddCors(options =>
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(MyAllowSpecificOrigins, builder => { builder.WithOrigins("http://localhost:4200"); });
+            //});
+
+            services.AddCors(o => o.AddPolicy(MyAllowSpecificOrigins, builder =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins, builder => { builder.WithOrigins("http://localhost:4200"); });
-            });
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
 
             services.AddTransient<IRepository<Light, int>, LightRepository>();
             services.AddTransient<IQuery<Light>, LightQuery>();
@@ -118,11 +125,13 @@ namespace ArduinoHomeHubBE
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(MyAllowSpecificOrigins);
+
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+
 
             app.UseIdentityServer();
             app.UseAuthorization();
