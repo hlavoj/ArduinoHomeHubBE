@@ -98,6 +98,7 @@ namespace ArduinoHomeHubBE
             }));
 
             services.AddTransient<IRepository<Light, int>, LightRepository>();
+            services.AddTransient<IRepository<TemperatureData, int>, TemperatureRepository>();
             services.AddTransient<IQuery<Light>, LightQuery>();
             services.AddTransient<ITemperatureQuery, TemperatureQuery>();
 
