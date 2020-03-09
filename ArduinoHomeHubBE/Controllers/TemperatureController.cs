@@ -27,7 +27,7 @@ namespace ArduinoHomeHubBE.Controllers
         {
             try
             {
-                _temperatureQuery.UserId = 3;
+                _temperatureQuery.UserId = 1;
                 _temperatureQuery.From = from;
                 _temperatureQuery.To = to;
                 _temperatureQuery.Interval = interval;
