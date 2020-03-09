@@ -23,7 +23,7 @@ namespace ArduinoHomeHubBE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(double temperature, double humidity, bool sensor1, bool sensor2)
+        public async Task<IActionResult> Get(double temperature, double humidity, int sensor1, int sensor2, int sensor3)
         {
             using (var uow = _uowProvider.Create())
             {

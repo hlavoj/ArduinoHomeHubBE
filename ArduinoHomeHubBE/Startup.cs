@@ -32,7 +32,8 @@ namespace ArduinoHomeHubBE
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = @"Server=(localdb)\mssqllocaldb;Database=ArduinoHomeHubFinal;Integrated Security=True";
+            var connectionString = Configuration["ConnectionString"];
+            //var connectionString = @"Server=(localdb)\mssqllocaldb;Database=ArduinoHomeHubFinal;Integrated Security=True";
 
             var dbContextBuilder = new DbContextOptionsBuilder<AdruinoHomeHubDbContext>();
             dbContextBuilder.UseSqlServer(connectionString);
@@ -121,10 +122,10 @@ namespace ArduinoHomeHubBE
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
-            }
+            //}
 
             app.UseCors(MyAllowSpecificOrigins);
 
