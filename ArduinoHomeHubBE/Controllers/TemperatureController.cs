@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using DataProvider.DTOs;
 using DataProvider.Queries.Interfaces;
@@ -34,7 +35,7 @@ namespace ArduinoHomeHubBE.Controllers
 
                 using (var uow = _uowProvider.Create())
                 {
-                    return Ok(await _temperatureQuery.ExecuteAsync());
+                    return Ok((await _temperatureQuery.ExecuteAsync()).OrderBy(o => o.DateTime));
                 }
             }
             catch (Exception e)
