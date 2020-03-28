@@ -10,7 +10,8 @@ namespace DataProvider.Entities
         public double Temperature { get; set; }
         public double Humidity { get; set; }
 
-        public User User { get; set; }
+        public int? UserId { get; set; }
+        public virtual User User { get; set; }
 
     }
 }
