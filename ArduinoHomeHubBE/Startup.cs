@@ -4,6 +4,7 @@ using DataProvider.Queries;
 using DataProvider.Queries.Interfaces;
 using DataProvider.Repositories;
 using IdentityServer4.AccessTokenValidation;
+using IdentityServer4.AspNetIdentity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using Riganti.Utils.Infrastructure.Core;
 using Riganti.Utils.Infrastructure.EntityFrameworkCore;
@@ -33,23 +35,22 @@ namespace ArduinoHomeHubBE
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration["ConnectionString"];
-            //var connectionString = @"Server=(localdb)\mssqllocaldb;Database=ArduinoHomeHubFinal;Integrated Security=True";
 
             var dbContextBuilder = new DbContextOptionsBuilder<AdruinoHomeHubDbContext>();
             dbContextBuilder.UseSqlServer(connectionString);
 
             services.AddDbContext<AdruinoHomeHubDbContext>(b => b.UseSqlServer(connectionString));
-
-
             services.AddScoped<IDateTimeProvider, UtcDateTimeProvider>();
             services.AddScoped(typeof(IUnitOfWorkProvider), provider
                 => new EntityFrameworkUnitOfWorkProvider(new AsyncLocalUnitOfWorkRegistry(), ()
                     => new AdruinoHomeHubDbContext(dbContextBuilder.Options)));
-
+            
+            // add identity
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<AdruinoHomeHubDbContext>()
                 .AddDefaultTokenProviders();
 
+            // Configure Identity options and password complexity here  
             services.Configure<IdentityOptions>(options =>
             {
                 // User settings
@@ -65,6 +66,18 @@ namespace ArduinoHomeHubBE
                 //    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 //    //options.Lockout.MaxFailedAccessAttempts = 10;
             });
+            IdentityModelEventSource.ShowPII = true;
+
+            // Adds IdentityServer.
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryPersistedGrants()
+                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
+                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
+                .AddInMemoryClients(IdentityServerConfig.GetClients())
+                .AddAspNetIdentity<User>()
+                ;//.AddProfileService<ProfileService>();
+
 
             var applicationUrl = Configuration["ApplicationUrl"].TrimEnd('/');
 
@@ -77,14 +90,6 @@ namespace ArduinoHomeHubBE
                     options.ApiName = IdentityServerConfig.ApiName;
                 });
 
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
-                .AddInMemoryClients(IdentityServerConfig.GetClients())
-                .AddAspNetIdentity<User>();
-            //.AddProfileService<ProfileService<User>>();
 
             //services.AddCors(options =>
             //{
@@ -138,7 +143,6 @@ namespace ArduinoHomeHubBE
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

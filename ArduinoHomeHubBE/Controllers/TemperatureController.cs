@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataProvider.DTOs;
 using DataProvider.Queries.Interfaces;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Riganti.Utils.Infrastructure.Core;
@@ -11,7 +12,7 @@ namespace ArduinoHomeHubBE.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
     public class TemperatureController : ControllerBase
     {
         private readonly ITemperatureQuery _temperatureQuery;

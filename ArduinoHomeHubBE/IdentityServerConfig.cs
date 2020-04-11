@@ -27,12 +27,13 @@ namespace ArduinoHomeHubBE
         {
             return new List<ApiResource>
             {
-                new ApiResource(ApiName, "My API")
+                new ApiResource(ApiName)
                 {
                     UserClaims =
                     {
                         JwtClaimTypes.Name,
                         JwtClaimTypes.Email,
+                        JwtClaimTypes.Audience
                     }
                 }
             };
