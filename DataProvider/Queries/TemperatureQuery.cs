@@ -12,7 +12,7 @@ namespace DataProvider.Queries
     public class TemperatureQuery : EntityFrameworkQuery<TemperatureData>, ITemperatureQuery
     {
 
-        public int UserId { get; set; }
+        public int ArduinoId { get; set; }
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }
         public SamplingInterval? Interval { get; set; }
@@ -25,14 +25,13 @@ namespace DataProvider.Queries
         protected override IQueryable<TemperatureData> GetQueryable()
         {
             var preFilter = Context.Set<TemperatureData>()
-                .Where(u => u.User.Id == UserId);
+                .Where(u => u.ArduinoId == ArduinoId);
 
             if (From != null)
                 preFilter = preFilter.Where(t => t.DateTime >= From);
             if (To != null)
                 preFilter = preFilter.Where(t => t.DateTime <= To);
 
-            var DbF = Microsoft.EntityFrameworkCore.EF.Functions;
 
             IQueryable<IGrouping<DateTime, TemperatureData>> groupBy;
             switch (Interval)

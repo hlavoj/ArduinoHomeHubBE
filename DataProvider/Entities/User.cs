@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Riganti.Utils.Infrastructure.Core;
@@ -16,5 +17,8 @@ namespace DataProvider.Entities
         public DateTime DateLastLogin { get; set; }
 
         public bool Enabled { get; set; }
+
+        public ICollection<UserLocation> UserLocations { get; set; }
+
     }
 }

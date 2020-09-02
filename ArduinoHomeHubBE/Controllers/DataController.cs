@@ -31,7 +31,7 @@ namespace ArduinoHomeHubBE.Controllers
                     DateTime = DateTime.Now,
                     Temperature = temperature,
                     Humidity = humidity,
-                    UserId = 1
+                    ArduinoId = 1
                 };
 
                 _temperatureRepository.Insert(data);

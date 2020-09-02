@@ -7,7 +7,7 @@ namespace DataProvider.Queries.Interfaces
 {
     public interface ITemperatureQuery :IQuery<TemperatureData>
     {
-        int UserId { get; set; }
+        int ArduinoId { get; set; }
         DateTime? From { get; set; }
         DateTime? To { get; set; }
         SamplingInterval? Interval { get; set; }

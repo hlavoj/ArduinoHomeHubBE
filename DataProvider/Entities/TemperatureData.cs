@@ -10,8 +10,8 @@ namespace DataProvider.Entities
         public double Temperature { get; set; }
         public double Humidity { get; set; }
 
-        public int? UserId { get; set; }
-        public virtual User User { get; set; }
+        public int? ArduinoId { get; set; }
+        public virtual Arduino Arduino { get; set; }
 
     }
 }

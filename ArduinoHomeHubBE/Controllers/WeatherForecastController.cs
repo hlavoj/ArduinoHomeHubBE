@@ -62,22 +62,22 @@ namespace ArduinoHomeHubBE.Controllers
                 .ToList();
 
 
-            using (var uow = _uowProvider.Create())
-            {
-                var res = await _lightQuery.ExecuteAsync();
-                return Ok(res);
-            }
-
-
-
-            //var rng = new Random();
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            //using (var uow = _uowProvider.Create())
             //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            //    var res = await _lightQuery.ExecuteAsync();
+            //    return Ok(res);
+            //}
+
+
+
+            var rng = new Random();
+            return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            })
+            .ToArray());
         }
     }
 }

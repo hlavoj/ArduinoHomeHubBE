@@ -56,6 +56,19 @@ namespace DataProvider
             });
 
             //modelBuilder.Entity<User>().HasData(new User{UserName = "admin" , Email = "hlavoj@gmail.com", FullName = "admin", PasswordHash = });
+
+            modelBuilder.Entity<UserLocation>()
+                .HasKey(t => new { t.UserId, t.LocationId});
+
+            modelBuilder.Entity<UserLocation>()
+                .HasOne(u => u.User)
+                .WithMany(u => u.UserLocations)
+                .HasForeignKey(l => l.UserId);
+
+            modelBuilder.Entity<UserLocation>()
+                .HasOne(u => u.Location)
+                .WithMany(u => u.UserLocations)
+                .HasForeignKey(l => l.LocationId);
         }
     }
 }
