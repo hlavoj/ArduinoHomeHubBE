@@ -32,8 +32,8 @@ namespace DataProvider
             {
 
                 string pass = "Test123*";
-                var user = new User { UserName = "hlavoj+revoltuser@gmail.com", Email = "hlavoj+revoltuser@gmail.com" , FullName = "User Name"};
-                var admin = new User { UserName = "hlavoj+revoltadmin@gmail.com", Email = "hlavoj+revoltadmin@gmail.com" , FullName = "Admin Name"};
+                var user = new User { UserName = "hlavoj@gmail.com", Email = "hlavoj@gmail.com" , FullName = "User Name"};
+                var admin = new User { UserName = "admin@gmail.com", Email = "admin@gmail.com" , FullName = "Admin Name"};
 
                 var a = await _userManager.CreateAsync(user, pass);
                 var b = await _userManager.CreateAsync(admin, pass);
